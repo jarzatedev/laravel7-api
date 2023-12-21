@@ -1,0 +1,8 @@
+name: laravel7-api
+recipe: laravel
+config:
+  webroot: public
+  php: 7.4
+  via: nginx
+  database: mariadb
+
