@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Http\Resources\ProductCollection;
+use App\Http\Resources\ProductResource;
 use App\Product;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,26 +12,27 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Collection|Product[]
+     * @return ProductCollection
      */
-    public function index()
+    public function index(): ProductCollection
     {
-        return Product::all();
+        return new ProductCollection(Product::all());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param ProductRequest $request
      * @return Builder|Model
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         return Product::query()->create($request->all());
     }
@@ -37,21 +41,21 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param Product $product
-     * @return Product
+     * @return ProductResource
      */
-    public function show(Product $product): Product
+    public function show(Product $product): ProductResource
     {
-        return $product;
+        return new ProductResource($product);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param ProductRequest $request
      * @param Product $product
      * @return Product
      */
-    public function update(Request $request, Product $product): Product
+    public function update(ProductRequest $request, Product $product): Product
     {
         $product->update($request->all());
         return $product;

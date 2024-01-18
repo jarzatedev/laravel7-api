@@ -18,7 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('products', 'ProductController')
-->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('products', 'ProductController');
 
-Route::apiResource('categories', 'CategoryController');
+    Route::apiResource('categories', 'CategoryController');
+});
+
+Route::post('sanctum/token', 'UserTokenController');
+
+Route::post('/newsletter','NewsletterController@send');
